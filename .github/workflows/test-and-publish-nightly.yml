@@ -10,23 +10,9 @@ concurrency:
 
 env:
   java_default_distribution: corretto
-  java_default_version: 11
+  java_default_version: 17
 
 jobs:
-  build-jars:
-    runs-on: ubuntu-latest
-    name: Build JARs
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v4
-      - name: Build JARs
-        run: make jar
-      - name: Upload JARs
-        uses: actions/upload-artifact@v4
-        with:
-          name: async-profiler-jars
-          path: build/jar/*
-          if-no-files-found: error
   build-and-upload-binaries:
     strategy:
       matrix:
@@ -34,8 +20,6 @@ jobs:
           - runson:
               display: macos
               name: macos-13
-              java-version: 17
-              java-distribution: corretto
     runs-on: ${{ matrix.runson.name }}
     name: "Build and unit test (${{ matrix.runson.display }})"
     steps:
@@ -53,7 +37,7 @@ jobs:
           HASH=${GITHUB_SHA:0:7}
           case "${{ matrix.runson.display }}" in
             macos*)
-              make COMMIT_TAG=$HASH test TESTS=wall -j
+              for run in {1..10}; do make COMMIT_TAG=$HASH FAT_BINARY=true test TESTS=wall -j; done
             ;;
             *)
               make COMMIT_TAG=$HASH CC=/usr/local/musl/bin/musl-gcc release coverage -j
