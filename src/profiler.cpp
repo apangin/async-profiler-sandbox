@@ -1385,6 +1385,7 @@ Error Profiler::dump(Writer& out, Arguments& args) {
     switch (args._output) {
         case OUTPUT_COLLAPSED:
             dumpCollapsed(out, args);
+            printf("skipped: %llu\n", _failures[-ticks_skipped]);
             break;
         case OUTPUT_FLAMEGRAPH:
             dumpFlameGraph(out, args, false);
