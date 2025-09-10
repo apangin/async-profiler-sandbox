@@ -24,7 +24,6 @@ public class WallTests {
         long s2 = out.samples("test/wall/BusyClient.run");
         long s3 = out.samples("test/wall/IdleClient.run");
         assert s1 > 10 && s2 > 10 && s3 > 10;
-        String cnt = Math.abs(s1 - s2) + ":" + Math.abs(s2 - s3) + ":" + Math.abs(s3 - s1);
-        assert Math.abs(s1 - s2) < 5 && Math.abs(s2 - s3) < 5 && Math.abs(s3 - s1) < 5 : cnt;
+        assert Math.abs(s1 - s2) < 5 && Math.abs(s2 - s3) < 5 && Math.abs(s3 - s1) < 5 : s1 + ":" + s2 + ":" + s3;
     }
 }
