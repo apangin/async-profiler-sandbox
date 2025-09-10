@@ -341,6 +341,8 @@ class BytecodeRewriter {
             case Result::JUMP_OVERFLOW:
                 Log::warn("Jump overflow: %s.%s", class_name.c_str(), method_name.c_str());
                 break;
+            default:
+                break;
         }
     }
 

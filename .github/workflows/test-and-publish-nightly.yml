@@ -28,6 +28,7 @@ jobs:
         with:
           distribution: ${{ matrix.java-distribution || env.java_default_distribution }}
           java-version: ${{ matrix.java-version || env.java_default_version }}
+          architecture: x64 
       - name: Checkout sources
         uses: actions/checkout@v4
       - name: Build and unit test
@@ -37,7 +38,7 @@ jobs:
           HASH=${GITHUB_SHA:0:7}
           case "${{ matrix.runson.display }}" in
             macos*)
-              for run in {1..10}; do make COMMIT_TAG=$HASH FAT_BINARY=true test TESTS=wall -j; done
+              make COMMIT_TAG=$HASH FAT_BINARY=true test-java TESTS=wall -j
             ;;
             *)
               make COMMIT_TAG=$HASH CC=/usr/local/musl/bin/musl-gcc release coverage -j

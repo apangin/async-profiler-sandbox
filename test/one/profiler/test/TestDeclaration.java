@@ -65,7 +65,7 @@ public class TestDeclaration {
             for (Method m : Class.forName(className).getMethods()) {
                 if (includes(m)) {
                     for (Test t : m.getAnnotationsByType(Test.class)) {
-                        rts.add(new RunnableTest(m, t));
+                        for (int i = 0; i < 100; i++) rts.add(new RunnableTest(m, t));
                     }
                 }
             }
